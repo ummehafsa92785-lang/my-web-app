@@ -25,15 +25,27 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDFxlAmbWAPUbOToqgDLLg539NOGqsvRSA",
-  authDomain: "bangladeshjobsmap.firebaseapp.com",
-  projectId: "bangladeshjobsmap",
-  storageBucket: "bangladeshjobsmap.firebasestorage.app",
-  messagingSenderId: "246542289443",
-  appId: "1:246542289443:web:6296ba8f06775a56d97f96",
-  measurementId: "G-GG32CETC9Y"
+  apiKey: "AIzaSyCP7OZrh91SiU6FXICj1QtjYrC6vDeIh6M",
+  authDomain: "bd-jobs-map.firebaseapp.com",
+  projectId: "bd-jobs-map",
+  storageBucket: "bd-jobs-map.firebasestorage.app",
+  messagingSenderId: "834279665785",
+  appId: "1:834279665785:web:b68037a7fa432d387524a8",
+  measurementId: "G-8Q8LHBRWF1"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 / Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);

@@ -10,7 +10,7 @@ import { getAnalytics } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDFxlAmbWAPUbOToqgDLLg539NOGqsvRSA",
+  apiKey: "AIzaSyCnrlIcS9z8Y09WJ5nr_0yiMdQjkEScSTY",
   authDomain: "bangladeshjobsmap.firebaseapp.com",
   projectId: "bangladeshjobsmap",
   storageBucket: "bangladeshjobsmap.firebasestorage.app",

@@ -7,6 +7,7 @@ main { flex:1; display:flex; gap:12px; padding:12px; }
 #map {
   height: 500px;   /* adjust size */
   width: 100%;
+
 }
 form { background:#f7f7f7; padding:10px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
 label { display:block; margin-bottom:8px; font-size:14px; }

@@ -1,48 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<<!-- Leaflet CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My First Web App</title>
-  <link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bangladesh Employment Map</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<<div id="map" style="height: 500px;"></div>>
-  <h1>Hello, World! 🌍</h1>
-  <p>This is my first web app hosted on GitHub.</p>
-  <button onclick="sayHello()">Click Me</button>
+<body>
+  <header>
+    <h1>Bangladesh Employment Map</h1>
+    <p>Find and post jobs — live on the map.</p>
+  </header>
 
+  <main>
+    <section id="left-panel">
+      <form id="job-form">
+        <h2>Post a job</h2>
+        <label>Job title
+          <input id="job-title" required placeholder="e.g. Helper, Teacher" />
+        </label>
+        <label>Company / Contact
+          <input id="job-company" required placeholder="e.g. ABC Pvt Ltd / +8801..." />
+        </label>
+        <label>Short description
+          <textarea id="job-desc" rows="3" placeholder="Short details"></textarea>
+        </label>
+        <p>Choose location: click on map or use the coordinates boxes</p>
+        <div class="coords">
+          <input id="job-lat" placeholder="latitude" />
+          <input id="job-lng" placeholder="longitude" />
+        </div>
+        <button type="submit">Save job</button>
+        <button type="button" id="clear-form">Clear</button>
+      </form>
+
+      <section id="job-list">
+        <h2>Live jobs</h2>
+        <div id="jobs"></div>
+      </section>
+    </section>
+
+    <section id="map-panel">
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Project: Bangladesh Employment Map — 100 Projects to Change Bangladesh</small>
+  </footer>
+
+  <!-- Firebase (v8 - simple for beginners) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <!-- Your script -->
   <script src="script.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMNsyZKUDfQwu5bA589iRZ4nXrXJsuvKI&callback=initMap" async defer></script>
-<!-- Firebase SDK -->
-<script type="module" src="script.js"></script>
-<!-- Google Maps -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Z9mLAWpvO1fOBmCjMK-_gERFzZTudio&callback=initMap" async defer></script>
+
+  <!-- Google Maps JS API: replace YOUR_GOOGLE_MAPS_API_KEY below -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnrlIcS9z8Y09WJ5nr_0yiMdQjkEScSTY&callback=initMap">
+  </script>
 </body>
 </html>
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore"; // Firestore import
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAND9C860PvFDKl-4BW4VqoI9mZ-fGCDXQ",
-  authDomain: "bangladesh-job-map-2e53f.firebaseapp.com",
-  projectId: "bangladesh-job-map-2e53f",
-  storageBucket: "bangladesh-job-map-2e53f.appspot.com", // fixed .app -> .appspot.com
-  messagingSenderId: "311830794297",
-  appId: "1:311830794297:web:2de1a4189c052d9b2cfde8",
-  measurementId: "G-0V9FCXQGMV"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-// Initialize Firestore
-const db = getFirestore(app);
-
-export { app, analytics, db };

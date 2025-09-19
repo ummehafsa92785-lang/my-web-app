@@ -1,70 +1,111 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Bangladesh Employment Map</title>
-  <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"></script>
+
+  <style>
+    /* Make the map visible */
+    #map {
+      height: 500px;  /* height of the map */
+      width: 100%;    /* full width */
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Bangladesh Employment Map</h1>
-    <p>Find and post jobs — live on the map.</p>
-  </header>
 
-  <main>
-    <section id="left-panel">
-      <form id="job-form">
-        <h2>Post a job</h2>
-        <label>Job title
-          <input id="job-title" required placeholder="e.g. Helper, Teacher" />
-        </label>
-        <label>Company / Contact
-          <input id="job-company" required placeholder="e.g. ABC Pvt Ltd / +8801..." />
-        </label>
-        <label>Short description
-          <textarea id="job-desc" rows="3" placeholder="Short details"></textarea>
-        </label>
-        <p>Choose location: click on map or use the coordinates boxes</p>
-        <div class="coords">
-          <input id="job-lat" placeholder="latitude" />
-          <input id="job-lng" placeholder="longitude" />
-        </div>
-        <button type="submit">Save job</button>
-        <button type="button" id="clear-form">Clear</button>
-      </form>
+  <h1>Bangladesh Employment Map</h1>
+  <div id="map"></div>
 
-      <section id="job-list">
-        <h2>Live jobs</h2>
-       <div id="map" style="height: 500px; width: 100%;"></div>
-      </section>
-    </section>
+  <!-- Firebase Initialization -->
+  <script>
+    // Replace these with your Firebase project config
+    const firebaseConfig = {
+     // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-    <section id="map-panel">
-      <div id="map"></div>
-    </section>
-  </main>
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCP7OZrh91SiU6FXICj1QtjYrC6vDeIh6M",
+  authDomain: "bd-jobs-map.firebaseapp.com",
+  projectId: "bd-jobs-map",
+  storageBucket: "bd-jobs-map.firebasestorage.app",
+  messagingSenderId: "834279665785",
+  appId: "1:834279665785:web:b68037a7fa432d387524a8",
+  measurementId: "G-8Q8LHBRWF1"
+};
 
-  <footer>
-    <small>Project: Bangladesh Employment Map — 100 Projects to Change Bangladesh</small>
-  </footer>
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+    };
 
-  <!-- Firebase (v8 - simple for beginners) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
 
-  <!-- Your script -->
-  <script src="script.js"></script>
-
-  <!-- Google Maps JS API: replace YOUR_GOOGLE_MAPS_API_KEY below -->
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiUiKzdCD0mhYGW90i3WweoX7j1_f6DaE&callback=initMap">
+    // Initialize Firestore
+    const db = firebase.firestore();
   </script>
-</!-- Firebase App (core SDK) -->
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"></script>
 
-<!-- Firebase Firestore (database) -->
-<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"></script>
->
+  <!-- Google Maps + Firebase Markers -->
+  <script>
+    function initMap() {
+      // Center of Bangladesh
+      const bangladesh = { lat: 23.685, lng: 90.3563 };
+
+      // Create the map
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 6,
+        center: bangladesh
+      });
+
+      // Sample job data (if you don’t want to use Firestore yet)
+      const sampleJobs = [
+        { lat: 23.8103, lng: 90.4125, title: "Dhaka Job Center" },
+        { lat: 22.3569, lng: 91.7832, title: "Chittagong Career Hub" },
+        { lat: 24.9045, lng: 91.8611, title: "Sylhet Employment Office" },
+        { lat: 23.6850, lng: 90.3563, title: "National Job Portal HQ" },
+        { lat: 22.8456, lng: 89.5403, title: "Khulna Job Assistance Center" },
+      ];
+
+      // Add sample markers
+      sampleJobs.forEach(job => {
+        new google.maps.Marker({
+          position: { lat: job.lat, lng: job.lng },
+          map: map,
+          title: job.title
+        });
+      });
+
+      // Optional: Load markers from Firebase "jobs" collection
+      db.collection("jobs").get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          new google.maps.Marker({
+            position: { lat: data.lat, lng: data.lng },
+            map: map,
+            title: data.title
+          });
+        });
+      });
+    }
+  </script>
+
+  <!-- Google Maps API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhNxNZqP6H_pSTpp-ekbsKziR-A_0ZGzw&callback=initMap" async></script>
+
+</body>
 </html>
 

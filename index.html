@@ -22,3 +22,27 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3Z9mLAWpvO1fOBmCjMK-_gERFzZTudio&callback=initMap" async defer></script>
 </body>
 </html>
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore"; // Firestore import
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAND9C860PvFDKl-4BW4VqoI9mZ-fGCDXQ",
+  authDomain: "bangladesh-job-map-2e53f.firebaseapp.com",
+  projectId: "bangladesh-job-map-2e53f",
+  storageBucket: "bangladesh-job-map-2e53f.appspot.com", // fixed .app -> .appspot.com
+  messagingSenderId: "311830794297",
+  appId: "1:311830794297:web:2de1a4189c052d9b2cfde8",
+  measurementId: "G-0V9FCXQGMV"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+// Initialize Firestore
+const db = getFirestore(app);
+
+export { app, analytics, db };

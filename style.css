@@ -21,3 +21,43 @@ button#clear-form { background:#777; margin-left:8px; }
 .coords { display:flex; gap:8px; }
 .coords input { flex:1; }
 footer { padding:8px 12px; text-align:center; font-size:12px; color:#555; background:#fafafa; border-top:1px solid #eee; }
+
+/* * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Centra No2", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9em;
+}
+
+.textContainer {
+    background-color: #4d90fe;
+    margin: 10px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 5px;
+    z-index: 1000;
+    color: white;
+}
+
+.detailsContainer {
+    background-color: #00000078;
+    margin: 10px;
+    overflow: hidden;
+    position: absolute;
+    top: 100px;
+    left : 10px;
+    padding: 10px;
+    z-index: 1000;
+    display:none;
+    color: white;
+    border-radius: 15px;
+}

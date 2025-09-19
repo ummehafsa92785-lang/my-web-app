@@ -36,15 +36,19 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // ✅ Dynamic job markers (using array of objects)
+// your existing map initialization code here
+
 const jobs = [
-  { lat: 23.8103, lon: 90.4125, title: "Job in Dhaka" },
-  { lat: 22.3569, lon: 91.7832, title: "Job in Chittagong" },
-  { lat: 24.9045, lon: 91.8611, title: "Job in Sylhet" },
-  { lat: 24.3745, lon: 88.6042, title: "Job in Rajshahi" },
-  { lat: 23.4607, lon: 91.1809, title: "Job in Comilla" }
+  { lat: 23.8103, lon: 90.4125, title: "IT Job in Dhaka" },
+  { lat: 24.8949, lon: 91.8687, title: "Marketing Job in Sylhet" },
+  { lat: 22.3569, lon: 91.7832, title: "Sales Job in Chittagong" },
+  { lat: 24.3636, lon: 88.6241, title: "Finance Job in Rajshahi" },
+  { lat: 23.4500, lon: 89.7500, title: "Customer Support Job in Khulna" },
+  { lat: 22.8456, lon: 89.5403, title: "HR Job in Barisal" },
+  { lat: 25.7439, lon: 89.2752, title: "Engineer Job in Rangpur" },
+  { lat: 23.9405, lon: 90.3781, title: "Design Job in Mymensingh" },
 ];
 
-// Loop through jobs and create markers
 jobs.forEach(job => {
   L.marker([job.lat, job.lon])
     .addTo(map)

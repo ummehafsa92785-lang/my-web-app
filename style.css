@@ -4,7 +4,10 @@ header { background:#0b6cf0; color:#fff; padding:12px 18px; }
 main { flex:1; display:flex; gap:12px; padding:12px; }
 #left-panel { width:360px; max-width:40%; }
 #map-panel { flex:1; }
-#map { height:75vh; border:1px solid #ccc; border-radius:8px; }
+#map {
+  height: 500px;   /* adjust size */
+  width: 100%;
+}
 form { background:#f7f7f7; padding:10px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
 label { display:block; margin-bottom:8px; font-size:14px; }
 input, textarea { width:100%; padding:8px; margin-top:4px; box-sizing:border-box; border-radius:4px; border:1px solid #ddd; }

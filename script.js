@@ -1,26 +1,14 @@
-function initMap() {
-  // Centered on Bangladesh
-  const bangladesh = { lat: 23.6850, lng: 90.3563 };
+// Centered on Bangladesh
+var map = L.map('map').setView([23.6850, 90.3563], 7);
 
-  // Create map
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 7,
-    center: bangladesh,
-  });
+// Use OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
-  // Example Job Locations
-  const jobs = [
-    { lat: 23.8103, lng: 90.4125, title: "Dhaka: IT Job Fair" },
-    { lat: 22.3475, lng: 91.8123, title: "Chattogram: Textile Jobs" },
-    { lat: 24.3636, lng: 88.6241, title: "Rajshahi: Agro Industry Jobs" }
-  ];
+// Sample job marker
+L.marker([23.8103, 90.4125]) // Dhaka
+  .addTo(map)
+  .bindPopup('Job in Dhaka')
+  .openPopup();
 
-  // Add markers
-  jobs.forEach(job => {
-    new google.maps.Marker({
-      position: { lat: job.lat, lng: job.lng },
-      map,
-      title: job.title
-    });
-  });
-}

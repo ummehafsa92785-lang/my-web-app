@@ -1,240 +1,46 @@
-// ----------------- FIREBASE CONFIG -----------------
-// Replace the placeholder object below with your Firebase config.
-// You get this from Firebase console when you create a web app for your project.
-var firebaseConfig =// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+let map;
+let markers = [];
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCP7OZrh91SiU6FXICj1QtjYrC6vDeIh6M",
-  authDomain: "bd-jobs-map.firebaseapp.com",
-  projectId: "bd-jobs-map",
-  storageBucket: "bd-jobs-map.firebasestorage.app",
-  messagingSenderId: "834279665785",
-  appId: "1:834279665785:web:b68037a7fa432d387524a8",
-  measurementId: "G-8Q8LHBRWF1"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-/ Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-var db = firebase.firestore();
-
-// ----------------- MAP & APP LOGIC -----------------
-var map;
-var markers = {};
-var jobsCol = db.collection('jobs');
-
+// Initialize map
 function initMap() {
-  // Center on Bangladesh
-  var bd = { lat: 23.777176, lng: 90.399452 };
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: bd,
-    zoom: 7
-  });
-
-  // When user clicks on map, fill latitude and longitude fields
-  map.addListener('click', function (event) {
-    document.getElementById('job-lat').value = event.latLng.lat().toFixed(6);
-    document.getElementById('job-lng').value = event.latLng.lng().toFixed(6);
-  });
-
-  // Start listening to jobs collection (real-time)
-  listenJobs();
-}
-
-// Add job marker to map and to HTML list
-function addJobToUI(id, data) {
-  // Create or update marker
-  if (markers[id]) {
-    markers[id].setPosition({ lat: data.lat, lng: data.lng });
-  } else {
-    var marker = new google.maps.Marker({
-      position: { lat: data.lat, lng: data.lng },
-      map: map,
-      title: data.title
-    });
-    marker.addListener('click', function () {
-      map.setCenter(marker.getPosition());
-      map.setZoom(14);
-    });
-    markers[id] = marker;
-  }
-
-  // Update jobs list
-  var jobsDiv = document.getElementById('jobs');
-  var existing = document.getElementById('job-' + id);
-  var html = '<div class="job-card" id="job-' + id + '">';
-  html += '<h3>' + escapeHtml(data.title) + '</h3>';
-  html += '<p><strong>' + escapeHtml(data.company) + '</strong></p>';
-  html += '<p>' + escapeHtml(data.desc || '') + '</p>';
-  html += '<p>Lat: ' + data.lat.toFixed(6) + ' Lng: ' + data.lng.toFixed(6) + '</p>';
-  html += '<button onclick="zoomToJob(\'' + id + '\')">Show on map</button>';
-  html += ' <button onclick="deleteJob(\'' + id + '\')">Delete</button>';
-  html += '</div>';
-
-  if (existing) {
-    existing.outerHTML = html;
-  } else {
-    jobsDiv.insertAdjacentHTML('afterbegin', html);
-  }
-}
-
-function removeJobFromUI(id) {
-  if (markers[id]) {
-    markers[id].setMap(null);
-    delete markers[id];
-  }
-  var el = document.getElementById('job-' + id);
-  if (el) el.remove();
-}
-
-function listenJobs() {
-  // Real-time listener: when collection changes, update UI
-  jobsCol.orderBy('createdAt', 'desc').onSnapshot(function (snapshot) {
-    snapshot.docChanges().forEach(function (change) {
-      var id = change.doc.id;
-      var data = change.doc.data();
-      if (change.type === 'added' || change.type === 'modified') {
-        addJobToUI(id, data);
-      }
-      if (change.type === 'removed') {
-        removeJobFromUI(id);
-      }
-    });
-  }, function (err) {
-    console.error('Listen error: ', err);
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 23.8103, lng: 90.4125 }, // Dhaka
+    zoom: 11,
   });
 }
 
-// When form submitted, save job to Firestore
-document.getElementById('job-form').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var title = document.getElementById('job-title').value.trim();
-  var company = document.getElementById('job-company').value.trim();
-  var desc = document.getElementById('job-desc').value.trim();
-  var lat = parseFloat(document.getElementById('job-lat').value);
-  var lng = parseFloat(document.getElementById('job-lng').value);
+// Add job marker
+function addJob() {
+  let jobTitle = document.getElementById("jobTitle").value;
+  let lat = parseFloat(document.getElementById("lat").value);
+  let lng = parseFloat(document.getElementById("lng").value);
+  let company = document.getElementById("company").value;
 
-  if (!title || !company || isNaN(lat) || isNaN(lng)) {
-    alert('Please complete title, company and pick a location on the map.');
+  if (!jobTitle || isNaN(lat) || isNaN(lng) || !company) {
+    alert("⚠️ Please fill all fields correctly!");
     return;
   }
 
-  jobsCol.add({
-    title: title,
-    company: company,
-    desc: desc,
-    lat: lat,
-    lng: lng,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function () {
-    // clear form
-    document.getElementById('job-form').reset();
-    alert('Job saved! It will appear on the map shortly.');
-  }).catch(function (err) {
-    console.error(err);
-    alert('Error saving job: ' + err.message);
+  let marker = new google.maps.Marker({
+    position: { lat: lat, lng: lng },
+    map: map,
+    title: jobTitle,
+    icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
   });
-});
 
-document.getElementById('clear-form').addEventListener('click', function () {
-  document.getElementById('job-form').reset();
-});
-
-// Delete job
-function deleteJob(id) {
-  if (!confirm('Delete this job?')) return;
-  jobsCol.doc(id).delete().catch(function (err) {
-    console.error('Delete error', err);
+  let infoWindow = new google.maps.InfoWindow({
+    content: `<b>${jobTitle}</b><br>${company}<br>Lat: ${lat}, Lng: ${lng}`
   });
-}
 
-// Zoom map to a job marker
-function zoomToJob(id) {
-  var marker = markers[id];
-  if (marker) {
-    map.setCenter(marker.getPosition());
-    map.setZoom(14);
-  }
-}
-
-// small helper to escape HTML (avoid XSS in simple UI)
-function escapeHtml(text) {
-  if (!text) return '';
-  return text.replace(/[&<>"']/g, function (m) {
-    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m];
+  marker.addListener("click", () => {
+    infoWindow.open(map, marker);
   });
-}
 
-let map3DElement = null;
-async function init() {
-    const { Map3DElement } = await google.maps.importLibrary("maps3d");
-    { }
-    map3DElement = new Map3DElement({
-        center: { lat: 51.532, lng: -0.124, altitude: 30 },
-        range: 1400,
-        tilt: 64,
-        heading: -5,
-        mode: 'HYBRID'
-    });
-    document.body.append(map3DElement);
-    map3DElement.addEventListener('gmp-click', async (event) => {
-        event.preventDefault();
-        if (event.placeId) {
-            const place = await event.fetchPlace();
-            await place.fetchFields({ fields: ['*'] });
-            // Display place details.
-            document.getElementById("placeName").innerHTML = "<b>Name :</b><br>&nbsp;" + place.displayName;
-            document.getElementById("placeId").innerHTML = "<b>Id :</b><br>&nbsp;" + place.id;
-            document.getElementById("placeType").innerHTML = "<b>Types :<b/>";
-            for (const type of place.types) {
-                document.getElementById("placeType").innerHTML += "<br>&nbsp;" + type;
-            }
-            document.getElementById("details").style.display = "block";
-        }
-    });
+  markers.push(marker);
+
+  // Clear form after entry
+  document.getElementById("jobTitle").value = "";
+  document.getElementById("lat").value = "";
+  document.getElementById("lng").value = "";
+  document.getElementById("company").value = "";
 }
-init();

@@ -1,63 +1,44 @@
-/* Simple clean styles */
-body { font-family: Arial, sans-serif; margin:0; display:flex; flex-direction:column; min-height:100vh; }
-header { background:#0b6cf0; color:#fff; padding:12px 18px; }
-main { flex:1; display:flex; gap:12px; padding:12px; }
-#left-panel { width:360px; max-width:40%; }
-#map-panel { flex:1; }
-<style>
-  #map {
-    height: 500px;
-    width: 100%;
-  }
-</style>
-form { background:#f7f7f7; padding:10px; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
-label { display:block; margin-bottom:8px; font-size:14px; }
-input, textarea { width:100%; padding:8px; margin-top:4px; box-sizing:border-box; border-radius:4px; border:1px solid #ddd; }
-button { padding:8px 12px; margin-top:8px; border:none; border-radius:6px; background:#0b6cf0; color:white; cursor:pointer; }
-button#clear-form { background:#777; margin-left:8px; }
-#jobs { margin-top:8px; }
-.job-card { padding:8px; border-bottom:1px solid #eee; }
-.job-card h3 { margin:0; font-size:16px; }
-.coords { display:flex; gap:8px; }
-.coords input { flex:1; }
-footer { padding:8px 12px; text-align:center; font-size:12px; color:#555; background:#fafafa; border-top:1px solid #eee; }
-
-/* * Always set the map height explicitly to define the size of the div element
- * that contains the map. 
- */
-html,
 body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: "Centra No2", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.9em;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
 }
 
-.textContainer {
-    background-color: #4d90fe;
-    margin: 10px;
-    overflow: hidden;
-    position: absolute;
-    left: 50%;
-    top: 10px;
-    border: 1px solid white;
-    border-radius: 10px;
-    padding: 5px;
-    z-index: 1000;
-    color: white;
+h2 {
+  background: #0078d7;
+  color: white;
+  padding: 15px;
+  margin: 0;
 }
 
-.detailsContainer {
-    background-color: #00000078;
-    margin: 10px;
-    overflow: hidden;
-    position: absolute;
-    top: 100px;
-    left : 10px;
-    padding: 10px;
-    z-index: 1000;
-    display:none;
-    color: white;
-    border-radius: 15px;
+.form-box {
+  margin: 15px 0;
+}
+
+.form-box input {
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-box button {
+  padding: 10px 20px;
+  background: #0078d7;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.form-box button:hover {
+  background: #005fa3;
+}
+
+#map {
+  height: 600px;
+  width: 100%;
+  border-top: 2px solid #0078d7;
 }

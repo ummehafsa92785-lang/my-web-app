@@ -2,133 +2,28 @@
 <html>
 <head>
   <title>Bangladesh Employment Map</title>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"></script>
-
-  <style>
-    /* Make the map visible */
-    #map {
-      height: 500px;  /* height of the map */
-      width: 100%;    /* full width */
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h2>Bangladesh Employment Map</h2>
 
-  <h1>Bangladesh Employment Map</h1>
+  <!-- Job Form -->
+  <div class="form-box">
+    <input type="text" id="jobTitle" placeholder="Job Title" required>
+    <input type="text" id="lat" placeholder="Latitude" required>
+    <input type="text" id="lng" placeholder="Longitude" required>
+    <input type="text" id="company" placeholder="Company / Contact" required>
+    <button onclick="addJob()">Enter</button>
+  </div>
+
+  <!-- Map -->
   <div id="map"></div>
 
-  <!-- Firebase Initialization -->
-  <script>
-    // Replace these with your Firebase project config
-    const firebaseConfig = {
-     // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCP7OZrh91SiU6FXICj1QtjYrC6vDeIh6M",
-  authDomain: "bd-jobs-map.firebaseapp.com",
-  projectId: "bd-jobs-map",
-  storageBucket: "bd-jobs-map.firebasestorage.app",
-  messagingSenderId: "834279665785",
-  appId: "1:834279665785:web:b68037a7fa432d387524a8",
-  measurementId: "G-8Q8LHBRWF1"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-
-    // Initialize Firestore
-    const db = firebase.firestore();
+  <!-- JS files -->
+  <script src="script.js"></script>
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpM6u_1QPH_-DNT7Ne9vDSCbsHG88WtTw&callback=initMap">
   </script>
-
-  <!-- Google Maps + Firebase Markers -->
-  <script>
-    function initMap() {
-      // Center of Bangladesh
-      const bangladesh = { lat: 23.685, lng: 90.3563 };
-
-      // Create the map
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 6,
-        center: bangladesh
-      });
-
-      // Sample job data (if you don’t want to use Firestore yet)
-      const sampleJobs = [
-        { lat: 23.8103, lng: 90.4125, title: "Dhaka Job Center" },
-        { lat: 22.3569, lng: 91.7832, title: "Chittagong Career Hub" },
-        { lat: 24.9045, lng: 91.8611, title: "Sylhet Employment Office" },
-        { lat: 23.6850, lng: 90.3563, title: "National Job Portal HQ" },
-        { lat: 22.8456, lng: 89.5403, title: "Khulna Job Assistance Center" },
-      ];
-
-      // Add sample markers
-      sampleJobs.forEach(job => {
-        new google.maps.Marker({
-          position: { lat: job.lat, lng: job.lng },
-          map: map,
-          title: job.title
-        });
-      });
-
-      // Optional: Load markers from Firebase "jobs" collection
-      db.collection("jobs").get().then((snapshot) => {
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          new google.maps.Marker({
-            position: { lat: data.lat, lng: data.lng },
-            map: map,
-            title: data.title
-          });
-        });
-      });
-    }
-  </script>
-
-  <!-- Google Maps API -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhNxNZqP6H_pSTpp-ekbsKziR-A_0ZGzw&callback=initMap" async></script>
-
 </body>
 </html>
 
-<html>
-  <head>
-    <title>Map</title>
-
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script type="module" src="./index.js"></script>
-  </head>
-  <body>
-    <div id="map"></div>
-
-    <!-- prettier-ignore -->
-    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-        ({key: "AIzaSyA6myHzS10YXdcazAFalmXvDkrYCp5cLc8", v: "beta",});</script>
-    <div id="details" class="detailsContainer">
-        <div id="placeName"></div>
-        <div id="placeId"></div>
-        <div id="placeType"></div>
-    </div>    
-    <div class="textContainer">
-        <div class="text">Click on a place to get details.</div>
-    </div> 
-  </body>
-</html>
